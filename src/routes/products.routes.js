@@ -23,6 +23,12 @@ const saveProducts = async (products) => {
     }
 }
 
+const getSingleProductById = async (pId) => {
+    const products = await getProducts();
+    const product = products.find(product => product.id === pId);
+    return product;
+}
+
 productsRoutes.get('/', async (req, res) => {
     const limit = +req.query.limit;
     const products = await getProducts();
@@ -35,8 +41,7 @@ productsRoutes.get('/', async (req, res) => {
 
 productsRoutes.get('/:pid', async (req, res) => {
     const pId = +req.params.pid;
-    const products = await getProducts();
-    const product = products.find(product => product.id === pId);
+    const product = await getSingleProductById(pId);
     if(!product) {
         return res.status(404).send({status: 'error', message: 'Producto no encontrado'});
     }
@@ -57,6 +62,21 @@ productsRoutes.post('/', async (req, res) => {
         return res.send({status: 'error', message: 'Error al guardar el producto. No se pudo añadir el producto'});
     }
     res.send({status: 'success', message: 'Producto agregado'});
+});
+
+productsRoutes.delete('/:pid', async (req, res) => {
+    const id = +req.params.pid;
+    const product = await getSingleProductById(id);
+    if(!product) {
+        return res.status(404).send({status: 'error', message: 'Producto no encontrado'});
+    }
+    const products = await getProducts();
+    const filteredProducts = products.filter(product => product.id !== id);
+    const isOK = await saveProducts(filteredProducts);
+    if(!isOK) {
+        return res.status(400).send({status: 'error', message: 'Error al eliminar el producto. No se pudo eliminar el producto'});
+    }
+    res.send({status: 'success', message: 'Producto eliminado'});
 });
 
 export default productsRoutes;

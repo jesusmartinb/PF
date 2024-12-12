@@ -64,6 +64,34 @@ productsRoutes.post('/', async (req, res) => {
     res.send({status: 'success', message: 'Producto agregado'});
 });
 
+productsRoutes.put('/:pid', async (req, res) => {
+    const id = +req.params.pid;
+    const product = await getSingleProductById(id);
+    if(!product) {
+        return res.status(404).send({status: 'error', message: 'Producto no encontrado'});
+    }
+    const newProduct = req.body;
+    if(!newProduct.title || !newProduct.description || !newProduct.price || !newProduct.code || !newProduct.status || !newProduct.stock || !newProduct.category) {
+        return res.status(400).send({status: 'error', message: 'Producto incompleto'});
+    }
+    const products = await getProducts();
+    const updatedProducts = products.map(product => {
+        if(product.id === id) {
+            return {
+                ...product,
+                ...newProduct,
+                id
+            }
+        }
+        return product;
+    });
+    const isOK = await saveProducts(updatedProducts);
+    if(!isOK) {
+        return res.status(400).send({status: 'error', message: 'Error al guardar el producto. No se pudo actualizar el producto'});
+    }
+    res.send({status: 'success', message: 'Producto actualizado'});
+});
+
 productsRoutes.delete('/:pid', async (req, res) => {
     const id = +req.params.pid;
     const product = await getSingleProductById(id);

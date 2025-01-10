@@ -1,0 +1,16 @@
+<div>
+    <h1>Listado de productos</h1>
+    {{#each products}}
+        <div>
+            <h2>{{this.title}}</h2>
+            <p>{{this.description}}</p>
+            <p>{{this.code}}</p>
+            <p>{{this.price}}</p>
+            <p>{{this.stock}}</p>
+            <p>{{this.category}}</p>
+            {{#if this.thumbnails}}
+                <img src="{{this.thumbnails.[0]}}" alt="{{this.title}}">
+            {{/if}}
+        </div>
+    {{/each}}
+</div>

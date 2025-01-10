@@ -1,5 +1,6 @@
 import express from 'express';
 import handlebars from 'express-handlebars';
+import { Server } from 'socket.io';
 import productsRoutes from './routes/products.routes.js';
 import cartRoutes from './routes/carts.routes.js';
 
@@ -17,6 +18,8 @@ app.set('view engine', 'handlebars');
 app.use('/api/products', productsRoutes);
 app.use('/api/carts', cartRoutes);
 
-app.listen(PORT, () => {
+const httpServer = app.listen(PORT, (req, res) => {
     console.log(`Server is running on port ${PORT}`);
 });
+
+const socketServer = new Server(httpServer);

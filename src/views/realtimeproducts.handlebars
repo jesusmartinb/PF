@@ -1,3 +1,59 @@
 <div>
-    <h1>realtimeProducts</h1>
+    <h1>Real Time Products</h1>
+    <h2>Crear Nuevo Producto</h2>
+    <form id="newProductForm">
+        <div class="form-group">
+            <label for="title"><span class="red">*</span> Nombre del Producto:</label>
+            <input type="text" name="title" id="title" placeholder="Nombre del producto">
+        </div>
+        <div class="form-group">
+            <label for="description"><span class="red">*</span> Descripción del Producto:</label>
+            <input type="text" name="description" id="description" placeholder="Descripción del producto">
+        </div>
+        <div class="form-group">
+            <label for="code"><span class="red">*</span> Código del Producto:</label>
+            <input type="text" name="code" id="code" placeholder="Código del producto">
+        </div>
+        <div class="form-group">
+            <label for="price"><span class="red">*</span> Precio del Producto:</label>
+            <input type="number" name="price" id="price" placeholder="Precio del producto">
+        </div>
+        <div class="form-group">
+            <label for="stock"><span class="red">*</span> Stock del Producto:</label>
+            <input type="number" name="stock" id="stock" placeholder="Stock del producto">
+        </div>
+        <div class="form-group">
+            <label for="category"><span class="red">*</span> Categoría del Producto:</label>
+            <input type="text" name="category" id="category" placeholder="Categoría del producto">
+        </div>
+        <div class="form-group">
+            <label for="thumbnail">URL de la imagen del Producto:</label>
+            <input type="text" name="thumbnail" id="thumbnail" placeholder="URL de la imagen del producto">
+        </div>
+        <button type="submit">Crear Producto</button>
+        <p class="red">* Campos obligatorios</p>
+    </form>
+    <h2>Eliminar Producto</h2>
+    <form id="deleteProductForm">
+        <div class="form-group">
+            <label for="deleteCode"><span class="red">*</span> Código del Producto:</label>
+            <input type="text" name="deleteCode" id="deleteCode" placeholder="Código del producto">
+        </div>
+        <button type="submit">Eliminar Producto</button>
+        <p class="red">* Campos obligatorios</p>
+    </form>
+    <h2>Listado de productos</h2>
+    {{#each products}}
+    <div>
+        <h2>{{this.title}}</h2>
+        <p>{{this.description}}</p>
+        <p>{{this.code}}</p>
+        <p>{{this.price}}</p>
+        <p>{{this.stock}}</p>
+        <p>{{this.category}}</p>
+        {{#if this.thumbnails}}
+        <img src="{{this.thumbnails.[0]}}" alt="{{this.title}}">
+        {{/if}}
+    </div>
+    {{/each}}
 </div>

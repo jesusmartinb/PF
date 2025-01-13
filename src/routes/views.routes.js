@@ -15,11 +15,12 @@ const viewsRoutes = Router();
 
 viewsRoutes.get('/', async (req, res) => {
     const products = await getProducts();
-    res.render('home', { products, title: 'Home Listado de Productos' });
+    res.render('home', { products, title: 'Home Listado de Productos', style: 'styles.css' });
 });
 
-viewsRoutes.get('/realtimeproducts', (req, res) => {
-    res.render('realtimeproducts');
+viewsRoutes.get('/realtimeproducts', async (req, res) => {
+    const products = await getProducts();
+    res.render('realtimeproducts', { products, title: 'Realtime Products', style: 'styles.css' });
 });
 
 export default viewsRoutes;
